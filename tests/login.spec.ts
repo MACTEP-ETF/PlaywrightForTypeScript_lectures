@@ -18,7 +18,7 @@ test("Login test", async ({ page }) => {
 
 
 
-test("Login with invalid credentials", async ({ page }) => {
+test.only("Login with invalid credentials", async ({ page }) => {
     // Navigate to SauceDemo
     await page.goto("https://www.saucedemo.com/")
     await expect(page).toHaveTitle("Swag Labs")
@@ -29,10 +29,10 @@ test("Login with invalid credentials", async ({ page }) => {
     // Fill in password
     await page.getByTestId('password').fill("invalid_password")
     
-    // Validate that error message is not attached
+    // Validate that error message is not present
     await expect(page.getByTestId('error')).toHaveCount(0);
 
-    // Validate that error icons are not attached
+    // Validate that error icons are not present
     await expect(page.locator('.error_icon')).toHaveCount(0);
 
     // Click Login button
@@ -59,6 +59,7 @@ test("Login with invalid credentials", async ({ page }) => {
     */
 
     const error_icons = await page.locator('.error_icon')
+    console.warn("Error icons count: ", await error_icons.count())
     const count = await error_icons.count()
     for (let i = 0; i < count; i++) {
          const item = error_icons.nth(i);
